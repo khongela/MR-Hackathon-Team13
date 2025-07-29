@@ -105,21 +105,21 @@ class userController {
         }
     }
     
-    async postNewUser(req, res, next) {
-        try {
+    // async postNewUser(req, res, next) {
+    //     try {
             
-            const {uid,email,displayName} = req.body;
-            const user = await userService.postNewUser(uid,email,displayName);
+    //         const {uid,email,displayName} = req.body;
+    //         const user = await userService.postNewUser(uid,email,displayName);
 
-            res.json({
-                success: true,
-                data: user
-            });
+    //         res.json({
+    //             success: true,
+    //             data: user
+    //         });
                 
-        } catch (error) {
-            next(error);
-        }
-    }
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
 
 }
 

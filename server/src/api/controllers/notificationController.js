@@ -36,8 +36,8 @@ class notificationController {
     async postNewNotification(req, res, next) {
         try {
             
-            const {timestamp,status,title} = req.body;
-            const notifcation = await notificationService.postNewNotification(timestamp,status,title);
+            const {status,title} = req.body;
+            const notifcation = await notificationService.postNewNotification(status,title);
 
             res.json({
                 success: true,

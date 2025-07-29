@@ -22,6 +22,23 @@ class userService {
         return result.rows[0];
     }
 
+    async getUserByIEmail(email) {
+        const query = {
+            text: 'SELECT * FROM "User" WHERE email = $1',
+            values: [email]
+        };
+
+        const result = await data.query(query);
+
+        if (result.rows.length === 0) {
+            throw new Error('User not found');
+        }
+
+        return result.rows[0];
+    }
+
+
+
     async patchUserName(id,name) {
         const query = {
             text: 'UPDATE "User" SET name = $2 Where id = $1 Returning *',
@@ -52,11 +69,11 @@ class userService {
         return result.rows[0];
     }
 
-    async patchUserPassword(id,passwword) {
+    async patchUserPassword(id,password) {
         
         const query = {
             text: 'UPDATE "User" SET password = $2 Where id = $1 Returning *',
-            values: [id,pasword]
+            values: [id,password]
         };
     
         const result = await data.query(query);
@@ -72,7 +89,7 @@ class userService {
         
         const query = {
             text: 'UPDATE "User" SET address = $2 Where id = $1 Returning *',
-            values: [id,pasword]
+            values: [id,address]
         };
     
         const result = await data.query(query);

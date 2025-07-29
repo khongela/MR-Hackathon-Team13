@@ -33,6 +33,22 @@ class userController {
         }
     }
 
+    async getUserEmail(req, res, next) {
+        try {
+            const email = req.params.email;
+
+            const user = await userService.getUserById(email);
+
+            res.json({
+                success: true,
+                data: user
+            });
+                
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async patchUserName(req, res, next) {
         try {
             
@@ -57,7 +73,7 @@ class userController {
             const id = req.params.id;
             const email= req.params.email;
 
-            const user = await userService.patchUserName(id,email);
+            const user = await userService.patchUserEmail(id,email);
 
             res.json({
                 success: true,
@@ -75,7 +91,7 @@ class userController {
             const id = req.params.id;
             const password = req.params.password;
 
-            const user = await userService.patchUserName(id,email);
+            const user = await userService.patchUserPassword(id,password);
 
             res.json({
                 success: true,

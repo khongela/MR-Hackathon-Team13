@@ -1,10 +1,14 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import AuthContext from '../components/context/AuthContext.jsx';
 
 const UserProfile = () => {
+  const { user } = useContext(AuthContext);
+  
+  // Set an initial state that matches the structure but can be empty
   const [profile, setProfile] = useState({
     name: "",
     email: "",
-    password: "",
+    address: "",
     notificationThreshold: "medium",
     emailNotifications: true,
     smsAlerts: false,
@@ -12,27 +16,32 @@ const UserProfile = () => {
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
 
-  // Load profile data from localStorage on component mount
-  useEffect(() => {
-    const savedProfile = localStorage.getItem("userProfile");
-    if (savedProfile) {
-      setProfile(JSON.parse(savedProfile));
-    } else {
-      // Set default values if no saved profile
+  // Function to load the profile state correctly
+  const loadProfileData = () => {
+    if (user) {
+      const savedPreferences = localStorage.getItem(`userPreferences_${user.id}`);
+      const preferences = savedPreferences ? JSON.parse(savedPreferences) : {};
+      
+      // Correctly build the profile object
       setProfile({
-        name: "John Traveler",
-        email: "john.traveler@email.com",
-        password: "password123",
-        notificationThreshold: "medium",
-        emailNotifications: true,
-        smsAlerts: false,
-        riskTolerance: "moderate",
+        name: user.name || "",
+        email: user.email || "",
+        address: user.address || "",
+        // Set default preferences first, then override with saved ones
+        notificationThreshold: preferences.notificationThreshold || "medium",
+        emailNotifications: preferences.emailNotifications !== undefined ? preferences.emailNotifications : true,
+        smsAlerts: preferences.smsAlerts !== undefined ? preferences.smsAlerts : false,
+        riskTolerance: preferences.riskTolerance || "moderate",
       });
     }
-  }, []);
+  };
+
+  // Load profile data when the component mounts or the user changes
+  useEffect(() => {
+    loadProfileData();
+  }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -43,20 +52,27 @@ const UserProfile = () => {
   };
 
   const handleSave = () => {
-    // Simulate database save
-    localStorage.setItem("userProfile", JSON.stringify(profile));
+    // In a real app, you would call a backend endpoint to update the user profile
+    // For now, we'll save only the preferences to localStorage
+    if (user) {
+        const preferencesToSave = {
+            notificationThreshold: profile.notificationThreshold,
+            emailNotifications: profile.emailNotifications,
+            smsAlerts: profile.smsAlerts,
+            riskTolerance: profile.riskTolerance,
+        };
+        localStorage.setItem(`userPreferences_${user.id}`, JSON.stringify(preferencesToSave));
+    }
+    
     setIsEditing(false);
-    setSaveStatus("Profile saved successfully!");
+    setSaveStatus("Profile updated successfully!");
     setTimeout(() => setSaveStatus(""), 3000);
   };
 
   const handleCancel = () => {
-    // Reload from localStorage to cancel changes
-    const savedProfile = localStorage.getItem("userProfile");
-    if (savedProfile) {
-      setProfile(JSON.parse(savedProfile));
-    }
     setIsEditing(false);
+    // Correctly reload the original data to discard changes
+    loadProfileData();
   };
 
   return (
@@ -86,27 +102,15 @@ const UserProfile = () => {
         <div className="profile-grid">
           <div className="form-group">
             <label className="form-label">Full Name</label>
-            {isEditing ? (
-              <input type="text" name="name" className="form-input" value={profile.name} onChange={handleInputChange} />
-            ) : (
-              <p>{profile.name}</p>
-            )}
+            <p>{profile.name}</p>
           </div>
           <div className="form-group">
             <label className="form-label">Email Address</label>
-            {isEditing ? (
-              <input type="email" name="email" className="form-input" value={profile.email} onChange={handleInputChange} />
-            ) : (
-              <p>{profile.email}</p>
-            )}
+            <p>{profile.email}</p>
           </div>
           <div className="form-group">
-            <label className="form-label">Password</label>
-            {isEditing ? (
-              <input type={showPassword ? "text" : "password"} name="password" className="form-input" value={profile.password} onChange={handleInputChange} />
-            ) : (
-              <p>••••••••</p>
-            )}
+            <label className="form-label">Address</label>
+            <p>{profile.address}</p>
           </div>
         </div>
       </div>

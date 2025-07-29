@@ -130,35 +130,3 @@ test('patchUserAddress updates the user address', async () => {
   });
   expect(userService.patchUserAddress).toHaveBeenCalledWith('4', '123 Main St');
 });
-
-test('postNewUser creates a user and returns data', async () => {
-  const req = httpMocks.createRequest({
-    body: {
-      uid: 'abc123',
-      email: 'test@new.com',
-      displayName: 'Test User',
-    },
-  });
-  const res = httpMocks.createResponse();
-  const next = jest.fn();
-
-  const newUser = {
-    id: 999,
-    uid: 'abc123',
-    email: 'test@new.com',
-    displayName: 'Test User',
-  };
-  userService.postNewUser.mockResolvedValueOnce(newUser);
-
-  await userController.postNewUser(req, res, next);
-
-  expect(res._getJSONData()).toEqual({
-    success: true,
-    data: newUser,
-  });
-  expect(userService.postNewUser).toHaveBeenCalledWith(
-    'abc123',
-    'test@new.com',
-    'Test User'
-  );
-});

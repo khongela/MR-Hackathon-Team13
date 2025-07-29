@@ -14,6 +14,8 @@ const AlertsDashboard = () => {
         throw new Error(`Response status: ${response.status}`);
       }
       const data = await response.json();
+      const noAlerts = data.length;
+      console.log(noAlerts);
 
       // Convert timestamps to Date objects (if needed)
       const formattedData = data.data.map(alert => ({

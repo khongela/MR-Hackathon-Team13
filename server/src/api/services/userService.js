@@ -1,4 +1,5 @@
 const data = require('../../config/database');
+const { putUserDetails } = require('../controllers/userController');
 
 class userService {
     async getAllUsers() {
@@ -100,6 +101,26 @@ class userService {
     
         return result.rows[0];
     }
+    
+    async putUserDetails(id,email,password,address,name) {
+
+        const query = {
+            text: 'INSERT INTO "User" (id,email,password,address,name) VALUES ($1,$2,$3,$4,$5)',
+            values: [id,email,password,address,name]
+        };
+
+        try {
+            const result = await data.query(query);
+    
+            return result.rows;
+        } catch (error) {
+            if (error.code === '23505') {
+                return { error: 'User already registered.' };
+            }
+
+        return result.rows;
+    }
+}
 
     async postNewUser(id,email,password,address,name) {
 
@@ -119,6 +140,7 @@ class userService {
 
         return result.rows;
     }
+
 }
     
 }

@@ -14,6 +14,17 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
+/* Add this to your UserProfile.css file */
+.error-banner {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
 .profile-header h3 {
   font-size: 1.125rem;
   font-weight: 600;

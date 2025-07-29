@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import AuthContext from '../components/context/AuthContext.jsx';
 
 const UserProfile = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateUser } = useContext(AuthContext); // Get updateUser from context
   
   const [profile, setProfile] = useState({
     name: "",
@@ -16,6 +16,7 @@ const UserProfile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
+  const [error, setError] = useState("");
 
   const loadProfileData = () => {
     if (user) {
@@ -46,25 +47,46 @@ const UserProfile = () => {
     }));
   };
 
-  const handleSave = () => {
-    // This function's logic for saving is not the focus, but it correctly toggles the state.
+  const handleSave = async () => {
+    setError(""); // Clear previous errors
+    setSaveStatus("");
+
+    // --- UPDATED SAVE LOGIC ---
     if (user) {
-        const preferencesToSave = {
-            notificationThreshold: profile.notificationThreshold,
-            emailNotifications: profile.emailNotifications,
-            smsAlerts: profile.smsAlerts,
-            riskTolerance: profile.riskTolerance,
+        // 1. Prepare data for the API call (basic info)
+        const userDataToUpdate = {
+            id: user.id,
+            name: profile.name,
+            email: profile.email,
+            address: profile.address,
         };
-        localStorage.setItem(`userPreferences_${user.id}`, JSON.stringify(preferencesToSave));
+
+        const result = await updateUser(userDataToUpdate);
+
+        if (result.success) {
+            // 2. Save preferences to localStorage (as before)
+            const preferencesToSave = {
+                notificationThreshold: profile.notificationThreshold,
+                emailNotifications: profile.emailNotifications,
+                smsAlerts: profile.smsAlerts,
+                riskTolerance: profile.riskTolerance,
+            };
+            localStorage.setItem(`userPreferences_${user.id}`, JSON.stringify(preferencesToSave));
+
+            setIsEditing(false);
+            setSaveStatus("Profile updated successfully!");
+            setTimeout(() => setSaveStatus(""), 3000);
+        } else {
+            // Handle API error
+            setError(result.message || "Failed to save changes.");
+            setTimeout(() => setError(""), 3000);
+        }
     }
-    
-    setIsEditing(false);
-    setSaveStatus("Profile updated successfully!");
-    setTimeout(() => setSaveStatus(""), 3000);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
+    setError("");
     loadProfileData();
   };
 
@@ -89,11 +111,11 @@ const UserProfile = () => {
       </div>
       
       {saveStatus && <div className="save-status-banner">{saveStatus}</div>}
+      {error && <div className="error-banner">{error}</div>}
 
       <div className="profile-section">
         <h4>Basic Information</h4>
         <div className="profile-grid">
-          {/* --- RESTORED EDIT FUNCTIONALITY HERE --- */}
           <div className="form-group">
             <label className="form-label">Full Name</label>
             {isEditing ? (

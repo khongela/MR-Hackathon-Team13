@@ -102,11 +102,11 @@ class userService {
         return result.rows[0];
     }
     
-    async putUserDetails(id,email,password,address,name) {
+    async putUserDetails(id,email,address,name) {
 
         const query = {
-            text: 'INSERT INTO "User" (id,email,password,address,name) VALUES ($1,$2,$3,$4,$5)',
-            values: [id,email,password,address,name]
+            text: 'UPDATE "User" SET email = $2, address = $3, name = $4 WHERE id = $1 Returning *',
+            values: [id,email,address,name]
         };
 
         try {

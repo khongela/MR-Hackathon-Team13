@@ -14,6 +14,6 @@ router.patch('/update-address/:id/:address',userController.patchUserAddress);
 
 //router.post('/post-user',userController.postNewUser);
 
-router.post('/put-user',userController.putUserDetails);
+router.put('/put-user',userController.putUserDetails);
 
 module.exports = router; 

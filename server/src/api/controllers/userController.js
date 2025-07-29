@@ -125,8 +125,8 @@ class userController {
     async putUserDetails(req, res, next) {
         try {
             
-            const {id,email,password,address,name} = req.body;
-            const user = await userService.putUserDetails(id,email,password,address,name);
+            const {id,email,address,name} = req.body;
+            const user = await userService.putUserDetails(id,email,address,name);
 
             res.json({
                 success: true,

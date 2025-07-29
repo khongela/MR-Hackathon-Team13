@@ -5,7 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "dev": "nodemon server.js"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/*.test.js"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -16,10 +29,12 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
+    "http-status-codes": "^2.3.0",
     "jest": "^30.0.5",
+    "jsonwebtoken": "^9.0.2",
     "node-mocks-http": "^1.17.2",
     "nodemon": "^3.1.10",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "supertest": "^7.1.4"
   }
 }

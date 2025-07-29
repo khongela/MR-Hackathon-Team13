@@ -52,11 +52,11 @@ class userService {
         return result.rows[0];
     }
 
-    async patchUserPassword(id,passwword) {
+    async patchUserPassword(id,password) {
         
         const query = {
             text: 'UPDATE "User" SET password = $2 Where id = $1 Returning *',
-            values: [id,pasword]
+            values: [id,password]
         };
     
         const result = await data.query(query);
@@ -72,7 +72,7 @@ class userService {
         
         const query = {
             text: 'UPDATE "User" SET address = $2 Where id = $1 Returning *',
-            values: [id,pasword]
+            values: [id,address]
         };
     
         const result = await data.query(query);

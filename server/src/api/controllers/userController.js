@@ -57,7 +57,7 @@ class userController {
             const id = req.params.id;
             const email= req.params.email;
 
-            const user = await userService.patchUserName(id,email);
+            const user = await userService.patchUserEmail(id,email);
 
             res.json({
                 success: true,
@@ -75,7 +75,7 @@ class userController {
             const id = req.params.id;
             const password = req.params.password;
 
-            const user = await userService.patchUserName(id,email);
+            const user = await userService.patchUserPassword(id,password);
 
             res.json({
                 success: true,

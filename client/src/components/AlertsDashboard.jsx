@@ -5,46 +5,30 @@ const AlertsDashboard = () => {
   const [filterStatus, setFilterStatus] = useState("all");
   const [sortBy, setSortBy] = useState("timestamp");
 
-  // Sample alert data - simulating database records
-  const sampleAlerts = [
-    {
-      id: 1,
-      timestamp: new Date("2024-01-15T10:30:00"),
-      title: "High Crime Rate Alert - Bangkok, Thailand",
-      status: "active",
-      severity: "high",
-      description: "Increased criminal activity reported in tourist areas",
-    },
-    {
-      id: 2,
-      timestamp: new Date("2024-01-15T08:15:00"),
-      title: "Weather Warning - Typhoon Approaching Philippines",
-      status: "resolved",
-      severity: "critical",
-      description: "Category 3 typhoon expected to make landfall",
-    },
-    {
-      id: 3,
-      timestamp: new Date("2024-01-14T16:45:00"),
-      title: "Political Unrest - Paris, France",
-      status: "active",
-      severity: "medium",
-      description: "Peaceful protests scheduled in city center",
-    },
-    {
-      id: 4,
-      timestamp: new Date("2024-01-14T14:20:00"),
-      title: "Health Advisory - Dengue Outbreak in Brazil",
-      status: "monitoring",
-      severity: "medium",
-      description: "Increased dengue cases reported in Rio de Janeiro",
-    },
-    // ... Add other sample alerts if needed
-  ];
+  // Fetch alerts from backend
+  const getNotifications = async () => {
+    const url = "http://localhost:3500/api/v1/notifications/";
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const data = await response.json();
+
+      // Convert timestamps to Date objects (if needed)
+      const formattedData = data.data.map(alert => ({
+        ...alert,
+        timestamp: new Date(alert.timestamp)
+      }));
+
+      setAlerts(formattedData);
+    } catch (error) {
+      console.error("Failed to fetch alerts:", error.message);
+    }
+  };
 
   useEffect(() => {
-    // Using sample alerts for demonstration
-    setAlerts(sampleAlerts);
+    getNotifications(); // fetch from backend
   }, []);
 
   const formatTimestamp = (timestamp) => {
@@ -61,20 +45,23 @@ const AlertsDashboard = () => {
     .filter((alert) => filterStatus === "all" || alert.status === filterStatus)
     .sort((a, b) => {
       if (sortBy === "timestamp") {
-        return b.timestamp - a.timestamp; // Most recent first
+        return b.timestamp - a.timestamp;
       } else if (sortBy === "severity") {
         const severityOrder = { critical: 4, high: 3, medium: 2, low: 1 };
         return severityOrder[b.severity] - severityOrder[a.severity];
+      } else if (sortBy === "status") {
+        const statusOrder = { active: 3, monitoring: 2, resolved: 1 };
+        return statusOrder[b.status] - statusOrder[a.status];
       }
       return 0;
     });
-    
+
   const getAlertSummary = () => {
     const active = alerts.filter(a => a.status === 'active').length;
     const monitoring = alerts.filter(a => a.status === 'monitoring').length;
     const resolved = alerts.filter(a => a.status === 'resolved').length;
     return { active, monitoring, resolved, total: alerts.length };
-  }
+  };
 
   const summary = getAlertSummary();
 
@@ -100,6 +87,7 @@ const AlertsDashboard = () => {
           >
             <option value="timestamp">Sort by Date</option>
             <option value="severity">Sort by Severity</option>
+            <option value="status">Sort by Status</option> 
           </select>
         </div>
       </div>

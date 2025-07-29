@@ -18,6 +18,8 @@ import './components/UserProfile.css';
 import './components/auth/LandingPage.css';
 import './components/auth/Auth.css';
 
+import MonitoredDestinationDashboard from './components/MonitoredDestinationDashboard.jsx'; 
+
 
 function App() {
   const { isAuthenticated, user } = useContext(AuthContext);
@@ -36,7 +38,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/alerts" element={<AlertsDashboard />} />
             <Route path="/profile" element={<UserProfile />} />
-          </Route>
+            <Route path="/destinations" element={<MonitoredDestinationDashboard />} />
+          </Route>          
         </Routes>
       </main>
     </div>

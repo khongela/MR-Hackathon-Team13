@@ -9,6 +9,7 @@ const Header = () => {
     <header className="app-header">
       <div className="header-container">
         <div className="header-left">
+
           <Link to={isAuthenticated ? "/alerts" : "/"} className="header-title-link">
             <h1 className="header-title">TravelRisk Monitor</h1>
           </Link>
@@ -17,11 +18,18 @@ const Header = () => {
               <NavLink to="/alerts" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
                 Alerts Dashboard
               </NavLink>
+              <NavLink
+              to="/destinations"
+              className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            >
+              Monitored Destinations
+            </NavLink>
               <NavLink to="/profile" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
                 Profile & Preferences
               </NavLink>
             </nav>
           )}
+
         </div>
         <div className="header-right">
           {isAuthenticated && user ? (

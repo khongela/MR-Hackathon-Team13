@@ -10,7 +10,7 @@ class notificationService {
     async getNotificationsByStatus(status) {
         const query = {
             text: 'SELECT * FROM "Notification" WHERE status = $1',
-            values: [type]
+            values: [status]
         };
         const result = await data.query(query);
 
@@ -23,7 +23,7 @@ class notificationService {
 
     async postNewNotification(status,title) {
         const query = {
-            text: 'INSERT INTO "Notification" (timestamp,status,title) VALUES (NOW(),$1,$2)',
+            text: 'INSERT INTO "Notification" (status,title) VALUES ($1,$2)',
             values: [status,title]
         };
 

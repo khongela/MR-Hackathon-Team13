@@ -21,10 +21,10 @@ class notificationService {
         return result.rows;
     };
 
-    async postNewNotification(timestamp,status,title) {
+    async postNewNotification(status,title) {
         const query = {
-            text: 'INSERT INTO "Notification" (timestamp,status,title) VALUES ($1,$2,$3)',
-            values: [timestamp,status,title]
+            text: 'INSERT INTO "Notification" (timestamp,status,title) VALUES (NOW(),$1,$2)',
+            values: [status,title]
         };
 
         try {

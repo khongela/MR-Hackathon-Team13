@@ -33,6 +33,22 @@ class userController {
         }
     }
 
+    async getUserEmail(req, res, next) {
+        try {
+            const email = req.params.email;
+
+            const user = await userService.getUserById(email);
+
+            res.json({
+                success: true,
+                data: user
+            });
+                
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async patchUserName(req, res, next) {
         try {
             

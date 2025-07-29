@@ -5,6 +5,7 @@ const router = express.Router();
 // Public routes
 router.get('/', userController.getAllUsers);
 router.get('/id/:id', userController.getUserById);
+router.get('/email/:email',userController.getUserEmail);
 
 router.patch('/update-name/:id/:name',userController.patchUserName);
 router.patch('/update-email/:id/:email',userController.patchUserEmail);

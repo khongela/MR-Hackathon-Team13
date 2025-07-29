@@ -57,6 +57,18 @@
   margin-right: 12px;
 }
 
+/* Add to the bottom of src/components/Header.css */
+.header-title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .user-avatar {
   height: 36px;
   width: 36px;

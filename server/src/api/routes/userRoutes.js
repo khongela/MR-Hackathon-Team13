@@ -12,6 +12,6 @@ router.patch('/update-email/:id/:email',userController.patchUserEmail);
 router.patch('/update-password/:id/:password',userController.patchUserPassword);
 router.patch('/update-address/:id/:address',userController.patchUserAddress);
 
-router.post('/post-user',userController.postNewUser);
+//router.post('/post-user',userController.postNewUser);
 
 module.exports = router; 

@@ -10,6 +10,7 @@ import './components/UserProfile.css';
 import Header from './components/Header.jsx';
 import AlertsDashboard from './components/AlertsDashboard.jsx';
 import UserProfile from './components/UserProfile.jsx';
+import MonitoredDestinationDashboard from './components/MonitoredDestinationDashboard.jsx'; 
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<AlertsDashboard />} />
           <Route path="/alerts" element={<AlertsDashboard />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/destinations" element={<MonitoredDestinationDashboard />} /> 
         </Routes>
       </main>
     </div>

@@ -154,6 +154,28 @@
   font-weight: bold;
 }
 
+.alerts-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.alerts-form input,
+.alerts-form select {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.alerts-form button {
+  background-color: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .summary-label {
   font-size: 14px;
   color: #4b5563;

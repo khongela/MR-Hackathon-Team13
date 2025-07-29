@@ -15,6 +15,12 @@ const Header = () => {
               Alerts Dashboard
             </NavLink>
             <NavLink
+              to="/destinations"
+              className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            >
+              Monitored Destinations
+            </NavLink>
+            <NavLink
               to="/profile"
               className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
             >

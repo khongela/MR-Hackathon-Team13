@@ -71,7 +71,3 @@ Built for a scalable, full-stack web app with real-time data handling and persis
     ```bash
     npm test
     ```
-
-## License 📄
-
-Include your preferred license information here.
